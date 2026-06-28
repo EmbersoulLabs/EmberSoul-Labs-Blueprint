@@ -2,7 +2,18 @@
 
 ## Purpose
 
-Business Profile stores the core business facts used by EmberOS for AI planning, marketing content generation, campaign creation, reporting, and future publishing workflows.
+Business Profile stores the core long-term business facts used by EmberOS for AI planning, marketing content generation, campaign creation, reporting, and future publishing workflows.
+
+Business Profile is background context. Campaign context can override generic Business Profile assumptions when the campaign is more specific.
+
+## Required Fields
+
+- Company Name
+- Industry
+- Services
+- Region
+- Target Audience
+- Brand Voice
 
 ## Fields
 
@@ -60,6 +71,60 @@ Rules:
 - AI prioritizes Service List.
 - Description is supporting context.
 
+### region
+
+Type:
+string
+
+Required:
+true
+
+AI Usage:
+Used for audience, cultural, platform, timing, and market assumptions.
+
+Rules:
+- AI may infer from user profile or workspace context only when reasonable.
+- If region is missing or uncertain, ask user to confirm.
+
+### targetAudience
+
+Type:
+array or string
+
+Required:
+true
+
+AI Usage:
+Used by Marketing Angle, Hook, Caption, CTA, Marketing Report, and Success Prediction.
+
+Rules:
+- AI may infer from Industry, Services, and Region.
+- User may edit.
+- User-confirmed value becomes source of truth.
+- If confidence is low, ask for confirmation.
+
+Flow:
+AI Suggest -> User Confirm -> Source of Truth
+
+### brandVoice
+
+Type:
+array
+
+Required:
+true
+
+Input:
+Campaign-level multi-select
+
+AI Usage:
+Controls tone and communication style for generated marketing content.
+
+Rules:
+- Brand Voice is selected at campaign level.
+- Multiple values may be selected.
+- Campaign-level Brand Voice can override generic Business Profile tone assumptions.
+
 ### businessDescription
 
 Type:
@@ -75,29 +140,6 @@ Rules:
 - User can write rough text.
 - AI can polish or ask clarification.
 - AI cannot invent business facts without confirmation.
-
-### targetAudience
-
-Type:
-array or string
-
-Required:
-recommended, but AI may infer
-
-AI Usage:
-Used by Marketing Angle, Hook, Caption, CTA, Marketing Report, and Success Prediction.
-
-Rules:
-- AI infers from Industry, Services, and Region.
-- User may edit.
-- User-confirmed value becomes source of truth.
-
-Flow:
-AI Suggest
-↓
-User Confirm
-↓
-Source of Truth
 
 ### businessHours
 
@@ -187,18 +229,15 @@ Rules:
 - Optional.
 - May include reusable brand, product, or campaign assets.
 
-## Fields Added in Session 010
+## Low Confidence Confirmation Flow
 
-- Company Name
-- Industry
-- Services
+Rules:
+- AI may infer from available context.
+- AI must ask user to confirm when key context is missing or confidence is low.
+- AI must not silently assume critical facts.
+- If video and Business Profile conflict, ask user to confirm.
 
-## Fields Added in Session 011
+## Version History
 
-- Logo
-- Brand Colors
-- Social Links
-- Business Description
-- Target Audience
-- Business Hours
-- Business Assets
+- v1.0 - Added Business Profile schema fields from Session 010 and Session 011.
+- v1.1 - Merged Blueprint v1.2 required fields, Brand Voice, Region, and Low Confidence Confirmation Flow.

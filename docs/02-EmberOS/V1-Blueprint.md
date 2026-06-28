@@ -1,8 +1,16 @@
 # EmberOS V1 Blueprint
 
+## Current State
+
+EmberOS V1 is in Product Specification stage.
+
+V1 Feature Freeze is active. No new V1 features should be added unless required to unblock launch.
+
+Blueprint v1.2 and v1.3 have been merged into this canonical V1 Blueprint. Historical blueprint, interview, decision, and release files remain as archive.
+
 ## Product Positioning
 
-EmberOS is an **AI Marketing Operating System** for SMEs.
+EmberOS is an AI Marketing Operating System for SMEs.
 
 It is not:
 
@@ -10,8 +18,9 @@ It is not:
 - A ChatGPT replacement
 - A CapCut replacement
 - A Canva replacement
+- A ChatGPT-style chat application
 
-EmberOS acts as an **AI Marketing Team for Small Businesses**.
+EmberOS acts as an automatic AI Marketing Team for Small Businesses.
 
 ## Core Problem
 
@@ -25,7 +34,9 @@ Users are not paying for AI tools.
 
 They are paying to save time and turn that time into business growth.
 
-**One Upload. Complete Marketing Workflow.**
+One Upload. Complete Marketing Workflow.
+
+V1 should show estimated time saved to remind users that EmberOS sells time and workflow automation, not AI tools.
 
 ## Target Customers
 
@@ -50,16 +61,56 @@ Long-term market:
 
 - Global expansion
 
-## First-Time User Flow
+## End-User Flow
+
+EmberOS must not use a ChatGPT-style prompt-first UI.
+
+User flow:
+
+```text
+Upload Video
+-> Campaign Information
+-> Generate
+-> Marketing Report
+-> Export / Schedule / Regenerate
+```
+
+First-time setup flow:
 
 ```text
 Register
-→ Create Business Profile
-→ Create Campaign
-→ Upload Video
-→ Optional Description
-→ Generate
+-> Create Business Profile
+-> Create Campaign
+-> Upload Video
+-> Optional Description
+-> Generate
 ```
+
+Reason:
+
+SME users do not want to learn prompting. They want an automatic AI Marketing Team.
+
+## Business Profile Rules
+
+Required fields:
+
+- Company Name
+- Industry
+- Services
+- Region
+- Target Audience
+- Brand Voice
+
+Brand Voice:
+
+- Campaign-level setting
+- Multi-select
+
+Low Confidence Confirmation Flow:
+
+- AI may infer.
+- AI must ask user to confirm.
+- AI must not silently assume critical facts.
 
 ## V1 Campaign Input
 
@@ -75,26 +126,58 @@ Optional:
 
 Platform selection is hidden in V1 because EmberOS generates assets for supported platforms by default.
 
+Current Campaign context can override generic Business Profile assumptions.
+
 ## V1 Output
 
 - AI marketing videos
 - Platform captions
 - Hashtags
 - Marketing Report
+- Marketing Score
+- Marketing Success Prediction
+- AI Confidence
+- AI Self Challenge result when required
+- Estimated Time Saved
 
-## AI Workflow
+## AI Brain Thinking Order
+
+```text
+Video
+-> User Description
+-> Campaign
+-> Business Profile
+-> AI Reasoning
+```
+
+Rules:
+
+- Video is the primary object being marketed.
+- Business Profile is background context.
+- If video and Business Profile conflict, ask user to confirm.
+- Current Campaign context can override generic Business Profile assumptions.
+
+## AI Runtime Workflow
 
 ```text
 Business Profile
-→ Campaign
-→ Content Analysis
-→ Marketing Objective
-→ Marketing Angle
-→ Hook
-→ Subtitle
-→ Caption
-→ CTA
-→ Marketing Report
+-> Campaign
+-> Upload Video
+-> User Description
+-> Content Analysis
+-> Business Strategy
+-> Marketing Angle
+-> Hook
+-> Subtitle
+-> Caption
+-> Hashtag
+-> Marketing Report
+-> Marketing Score
+-> Marketing Success Prediction
+-> AI Confidence
+-> AI Self Challenge
+-> Export
+-> Schedule Posting
 ```
 
 ## Content Analysis
@@ -117,6 +200,78 @@ The report must answer three questions:
 2. Why is this marketing plan recommended?
 3. What business impact is expected?
 
+## Marketing Score Framework
+
+Marketing Score evaluates marketing effectiveness, not AI capability.
+
+Dimensions:
+
+- Video Quality
+- Editing Quality
+- Marketing Quality
+- Brand Match
+- Viewer Perspective
+
+## Marketing Success Prediction
+
+Marketing Success Prediction is included in V1.
+
+Prediction measures:
+
+- Marketing Potential
+
+Prediction does not guarantee:
+
+- Views
+- Likes
+- Revenue
+- Sales
+- Orders
+
+The prediction must include a disclaimer that actual performance depends on platform algorithm, audience, posting time, and external factors.
+
+## Critical Error Detection
+
+AI should recommend regeneration or stop workflow when:
+
+- Product recognition is wrong.
+- Business Profile conflicts severely with video and user has not confirmed.
+- Audience is clearly wrong.
+- Content Analysis fails.
+- Critical Understanding Error occurs.
+
+## AI Confidence
+
+AI must output confidence level based on how certain it is about:
+
+- Product understanding
+- Business Profile match
+- Campaign match
+- Audio / visual clarity
+- Context completeness
+
+If AI Confidence is low:
+
+- Explain why.
+- Ask for more information.
+- Suggest re-upload if needed.
+
+## AI Self Challenge
+
+If Marketing Score is below 80:
+
+- AI must challenge its own output.
+- Re-plan.
+- Regenerate weak parts.
+- Re-score.
+
+Stop only if:
+
+- Material is too poor.
+- Product cannot be identified.
+- User input is insufficient.
+- AI Confidence is too low.
+
 ## Quality and Progress Principle
 
 V1 prioritizes output quality over speed.
@@ -132,19 +287,52 @@ During generation, users must see:
 
 Users can accept waiting, but they should not feel the system is stuck.
 
-## Low Confidence Principle
+## Workflow Engine Architecture
 
-If AI lacks confidence, it should ask users to supplement key information with suggested options and custom input.
+```text
+Frontend
+-> Workflow Engine
+-> AI Skills
+-> Prompt Library
+-> OpenAI
+```
 
-AI should not make unsupported assumptions that may cause poor output and wasted regeneration cost.
+Rules:
 
-## Business Value
+- Frontend must not contain prompt logic.
+- Workflow Engine controls execution order.
+- Workflow Engine controls retry.
+- Workflow Engine controls failure handling.
+- Workflow Engine controls Self Challenge.
+- AI Skills must remain modular.
+- Prompt Library must be version controlled.
 
-The feature users would keep if only one remained is Video Planning / Auto Marketing Video Planning.
+## Development Order
 
-Reason:
+```text
+Schema
+-> Workflow
+-> AI Skills
+-> Prompt Library
+-> Workflow Engine
+-> API
+-> Frontend
+-> Testing
+-> Release
+```
 
-SME owners can often record videos, but planning and editing consume the most time.
+## Documentation Before Development
+
+Any development must be supported by:
+
+- Blueprint
+- Specification
+- Schema
+- Workflow
+- AI Skill
+- Prompt
+
+before coding.
 
 ## Competitive Strategy
 

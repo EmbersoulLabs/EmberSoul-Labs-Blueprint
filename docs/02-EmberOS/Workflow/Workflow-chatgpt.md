@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define how ChatGPT supports EmberOS V1 development.
+Define how ChatGPT supports EmberOS V1 development while preserving the Blueprint as the Single Source of Truth.
 
 ## ChatGPT Roles
 
@@ -11,6 +11,15 @@ Define how ChatGPT supports EmberOS V1 development.
 - Prompt Engineer
 - Cursor Reviewer
 - Marketing Tester
+
+## Product Governance
+
+- Blueprint is the Single Source of Truth.
+- Product Decision overrides discussion.
+- User Decision overrides Architect Recommendation.
+- Prompt must not create Product Decisions.
+- Cursor must not guess product behavior.
+- No V1 feature expansion during Feature Freeze.
 
 ## Development Order
 
@@ -24,14 +33,30 @@ Define how ChatGPT supports EmberOS V1 development.
 8. Testing
 9. Release
 
-## Rules
+## Documentation Before Development
 
-- Blueprint is the Single Source of Truth.
-- User Decision overrides Architect Recommendation.
-- Prompt must not create product decisions.
-- Cursor must not guess product behavior.
-- No feature expansion during V1 Feature Freeze.
+Any development must be supported by:
+
+- Blueprint
+- Specification
+- Schema
+- Workflow
+- AI Skill
+- Prompt
+
+before coding.
+
+## Cursor Review Rule
+
+Cursor must read canonical files before implementation:
+
+1. docs/02-EmberOS/V1-Blueprint.md
+2. docs/02-EmberOS/Decision-Log.md
+3. docs/02-EmberOS/Workflow/AI-Workflow.md
+4. Related files in docs/02-EmberOS/Specification/
+5. Related files in docs/02-EmberOS/Prompt/
 
 ## Version History
 
-- v1.0 — Added in Blueprint v1.3.
+- v1.0 - Added in Blueprint v1.3.
+- v1.1 - Merged Blueprint v1.2 and v1.3 governance rules into canonical workflow.

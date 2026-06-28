@@ -1,127 +1,110 @@
 # EmberOS V1 Interview Log
 
-This file records founder answers and product decisions from the V1 discovery interview.
+This file records founder answers and product decisions from the V1 discovery interview. Separate Session files remain the detailed historical record when they exist.
 
-## Session 1
+## Session 001
 
-### Q1
-
+Summary:
 EmberOS is an AI Marketing Operating System that helps SMEs solve marketing and content creation manpower shortages through AI-powered planning, generation and optimization.
 
-### Q2
+Key points:
+- V1 target customers include florists, software companies, pet businesses, car dealers and restaurants.
+- Initial markets are Singapore and Malaysia.
+- V1 output includes AI marketing videos, platform captions, hashtags, and Marketing Report.
 
-Target customers for V1:
+## Session 002
 
-- Florists
-- Software companies
-- Pet businesses
-- Car dealers
-- Restaurants
+Summary:
+First-time user flow and campaign input were defined.
 
-Initial markets:
+Key points:
+- Register -> Business Profile -> Campaign -> Upload Video -> Optional Description -> Generate.
+- Required campaign inputs include Campaign Name and Output Language.
+- Platform selection should not block V1.
+- Marketing Score should be shown after generation.
 
-- Singapore
-- Malaysia
+## Session 003
 
-Long-term target:
+Summary:
+Content Analysis, Marketing Report, and workflow consolidation were clarified.
 
-- Global market
+Key points:
+- Content Analysis should understand product, people, emotion, brand, and target customer.
+- Marketing Report explains audience, recommendation rationale, and expected business improvement.
+- EmberOS centralizes fragmented marketing tasks into one workflow.
 
-### Q3
+## Session 004
 
-V1 output must include:
+Summary:
+Campaign objective, low confidence handling, and quality-over-speed rules were locked.
 
-- AI marketing videos
-- Platform captions
-- Hashtags
-- Marketing Report
+Key points:
+- Campaign requires Campaign Name and Expected Outcome / Campaign Objective.
+- AI should ask users to supplement information when uncertain.
+- Product must show progress, stage, ETA, errors, retry guidance, and support guidance.
 
-## Session 2
+## Session 005
 
-### Q4
+Summary:
+Video Planning was identified as the most important V1 feature and the value proposition was tied to time savings.
 
-First-time user flow:
+Key points:
+- Video Planning / Auto Marketing Video Planning is the feature to keep if only one remains.
+- Users value EmberOS when content brings exposure, customers, or viral performance.
+- EmberOS should feel like an AI marketing team with a simple workflow.
 
-Register → Business Profile → Campaign → Upload Video → Optional Description → Generate
+## Session 006
 
-### Q5
+Reference:
+docs/02-EmberOS/Interview/Session-006.md
 
-Required:
+Summary:
+Business Profile required fields, Brand Voice, and Low Confidence Confirmation Flow were accepted.
 
-- Campaign Name
-- Output Language
+Key points:
+- Business Profile required fields: Company Name, Industry, Services, Region, Target Audience, Brand Voice.
+- Brand Voice is campaign-level and multi-select.
+- AI may infer but must ask user to confirm when confidence is low or critical facts are missing.
 
-Optional:
+## Session 007
 
-- Description
+Reference:
+docs/02-EmberOS/Interview/Session-007.md
 
-Platform selection should not block V1. EmberOS generates supported platforms by default.
+Summary:
+AI Brain Thinking Order, Marketing Score Framework, Marketing Success Prediction, and Critical Error Detection were accepted.
 
-### Q6
+Key points:
+- Thinking Order: Video -> User Description -> Campaign -> Business Profile -> AI Reasoning.
+- Marketing Score evaluates marketing effectiveness, not AI capability.
+- Marketing Success Prediction measures marketing potential, not guaranteed performance.
+- AI should recommend regeneration or stop workflow when critical understanding errors occur.
 
-After generation, users should first see the Marketing Score with a short explanation.
+## Session 008
 
-## Session 3
+Reference:
+docs/02-EmberOS/Interview/Session-008.md
 
-### Q7
+Summary:
+AI Self Challenge, AI Confidence, Estimated Time Saved, Schema First Development, and Documentation Before Development were accepted.
 
-Content Analysis should understand:
+Key points:
+- If Marketing Score is below 80, AI must challenge, improve, and re-score.
+- AI Confidence evaluates product understanding, Business Profile match, Campaign match, clarity, and context completeness.
+- V1 should show estimated time saved.
+- Development follows Schema -> Workflow -> AI Skills -> Prompt Library -> Workflow Engine -> API -> Frontend -> Testing -> Release.
+- Documentation must exist before coding.
 
-- Product
-- People
-- Emotion
-- Brand
-- Who the product is for
+## Session 009
 
-### Q8
+Reference:
+docs/02-EmberOS/Interview/Session-009.md
 
-Marketing Report should explain:
+Summary:
+V1 entered Product Specification stage, Feature Freeze was preserved, and Workflow Engine architecture was accepted.
 
-- Who the audience is
-- Why this plan is recommended
-- What this plan can improve
-
-### Q9
-
-EmberOS centralizes fragmented marketing tasks into one workflow.
-
-Users should not need to open CapCut for editing, ChatGPT for analysis, another tool for hashtags, and another tool for translation.
-
-## Session 4
-
-### Q10
-
-Campaign should require:
-
-- Campaign Name
-- Expected outcome / Campaign Objective
-
-### Q11
-
-If AI is uncertain, it should ask the user to supplement information with suggested options and custom input.
-
-Reason: if AI guesses wrong, the customer may be dissatisfied and regeneration wastes time and cost.
-
-### Q12
-
-Quality is more important than speed.
-
-The product must show real-time progress, current stage, estimated waiting time, errors, retry guidance and support guidance.
-
-## Session 5
-
-### Q13
-
-If only one feature can remain, it should be Video Planning.
-
-Reason: in businesses like florists, making the product may take 30 minutes, but editing the video may take one hour.
-
-### Q14
-
-Users feel the subscription is worth it when content brings more exposure, more customers or viral performance.
-
-### Q15
-
-If the user has time, they can use ChatGPT and CapCut. But ChatGPT costs money, CapCut costs money, and the process takes 30-60 minutes.
-
-EmberOS should provide an AI marketing team with a simple workflow. The user uploads a video, EmberOS runs the planned workflow, and the user can spend that time creating higher business value.
+Key points:
+- EmberOS is not a ChatGPT-style chat application.
+- End-user flow: Upload Video -> Campaign Information -> Generate -> Marketing Report -> Export / Schedule / Regenerate.
+- Workflow Engine orchestrates AI Skills, Prompt Library, OpenAI calls, retries, failure handling, and Self Challenge.
+- Prompt logic must not live in the frontend.
