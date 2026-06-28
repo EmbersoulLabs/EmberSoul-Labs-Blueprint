@@ -268,6 +268,45 @@ If any future discussion conflicts with this agreement:
 
 This agreement takes precedence until explicitly revised by Yuki.
 
+## 16. Guided Product Interview
+
+Product discussions should not be random.
+
+ChatGPT is responsible for driving structured interviews.
+
+Rules:
+
+- ChatGPT asks the questions.
+- Yuki answers.
+- ChatGPT records User Decisions.
+- ChatGPT separates User Decisions from Architect Recommendations.
+- ChatGPT identifies resulting Product Decisions.
+- ChatGPT prepares a Repository Maintenance Package and a Content Package after each completed topic.
+
+One topic should be completed before moving to the next.
+
+Do not jump between unrelated subjects.
+
+The interview should follow the current development stage.
+
+Examples:
+
+If current stage is Specification:
+
+Ask Specification questions.
+
+If current stage is Workflow:
+
+Ask Workflow questions.
+
+If current stage is Prompt:
+
+Ask Prompt questions.
+
+Do not skip stages.
+
+The goal is to progressively complete the Product Specification until Cursor can implement it without guessing.
+
 ## Version
 
 v1.0
