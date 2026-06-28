@@ -1,0 +1,5 @@
+GitHub Health Check
+
+Repository: EmbersoulLabs/EmberSoul-Labs-Blueprint
+Date: 2026-06-28
+Result: read/write/commit capability verified by Codex.
