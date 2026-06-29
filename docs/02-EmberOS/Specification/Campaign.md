@@ -1,117 +1,108 @@
 # SPEC-002 Campaign Schema
 
-Status: In Progress
+Status: Locked
 
-Update Type: Specification Partial Update
+Update Type: Specification + UI Specification Update
+
+## Purpose
+
+Defines the Campaign data specification for EmberOS V1.
+
+SPEC-002 describes the accepted Campaign fields, relationships, lifecycle rules, output references, language rules, ownership rules, delete policy, and out-of-scope boundaries.
 
 ## Scope
 
-This document records the accepted SPEC-002 Campaign Schema decisions so far.
+This specification covers:
 
-SPEC-002 is not locked.
+- Campaign Information
+- Campaign Objective
+- Campaign Status
+- Campaign Assets
+- Campaign Brief
+- Campaign Timeline
+- Campaign Outputs
+- Campaign Management
+- Duplicate Campaign
+- Campaign Language
+- AI Analysis Priority
+- Marketing Package
+- Regenerate
+- Version Policy
+- Ownership
+- Delete Policy
+- Permission
+- Database Platform
+- Audit Fields
+- Relationships
+- Dependencies
+- Out of Scope
+- Future Specifications
 
-Do not implement code from this draft until SPEC-002 is completed and locked.
-
-## 1. Campaign Information
+## Campaign Information
 
 Campaign stores the following fields:
 
-| Field | Save | Required |
+| Field | Required | Notes |
 | --- | --- | --- |
-| Campaign Name | Yes | Yes |
-| Campaign Objective | Yes | Yes |
-| Campaign Description | Yes | No |
-| Target Audience Override | Yes | No |
+| Campaign Name | Yes | Primary campaign display name. |
+| Campaign Objective | Yes | Defines expected marketing outcome. |
+| Campaign Description | No | Supporting context. |
+| Target Audience Override | No | Campaign-specific override of Business Profile target audience. |
 
-Campaign Objective input type:
+## Campaign Objective
+
+Campaign Objective supports:
 
 - Dropdown
 - Custom
 
-Campaign Objective examples:
+Implementation must support predefined objective values and user-entered custom objectives.
 
-- Brand Awareness
-- Lead Generation
-- Sales
-- Promotion
-- Event
-- Product Launch
-- Seasonal Campaign
-- Custom
-
-## 2. Campaign Status vs AI Job Status
-
-Campaign Status and AI Job Status must be separated.
+## Campaign Status
 
 Campaign Status represents business status only.
 
-Campaign Status values:
+Accepted values:
 
 - Draft
 - Active
 - Completed
 - Archived
 
-AI generation progress does not belong to Campaign Status.
+Campaign Status must not be used for AI generation progress.
 
-AI Job will be handled by a future separate specification.
+AI generation progress belongs to AI Job or a future AI execution specification.
 
-AI Job may include:
+## Campaign Assets
 
-- Job Status
-- Progress %
-- Started At
-- Finished At
-- Error Message
+Campaign supports one unified Upload / Drag & Drop area.
 
-## 3. Campaign Assets
+Supported input sources:
 
-Campaign supports input sources:
-
-- Uploaded Videos
-- Uploaded Images
-- Uploaded Documents
+- Videos
+- Images
+- Documents
 - External URL
-
-UI Rule:
-
-- All input sources should be handled through one unified upload box or drag-and-drop area.
-- The user should not see four separate upload sections.
-- Schema must still record asset type internally.
-
-Validation Rule:
-
-At least one input source is required before AI Generate.
-
-Input source may be:
-
-- Video
-- Image
-- Document
-- External URL
-
-## 4. Campaign Brief
-
-Campaign Brief is saved.
-
-Required:
-No
-
-Preferred:
-Yes
 
 Rules:
 
-- AI should prioritize Campaign Brief when it exists.
-- If Campaign Brief does not exist, AI should continue using Campaign Name, Campaign Objective, Uploaded Assets, and Business Profile.
+- User sees one unified upload area.
+- The system internally records asset type.
+- At least one input source is required before AI Generate.
+- Upload API and storage behavior are out of scope for SPEC-002.
 
-## 5. Campaign Timeline
+## Campaign Brief
 
-Campaign Scheduling is not part of SPEC-002.
+Campaign Brief is optional but preferred.
 
-Campaign should record audit timeline fields instead.
+Rules:
 
-Campaign Timeline fields:
+- AI prioritizes Campaign Brief when available.
+- If Campaign Brief is missing, AI continues using Campaign Name, Campaign Objective, Uploaded Assets, and Business Profile.
+
+## Campaign Timeline
+
+Campaign records audit timeline fields:
 
 - Created At
 - Updated At
@@ -120,22 +111,23 @@ Campaign Timeline fields:
 - Published At
 - Archived At
 
-Future publishing schedule should be defined in a separate Publishing Specification.
+Publishing schedule is not part of SPEC-002.
 
-## 6. Campaign Outputs
+## Campaign Outputs
 
-Campaign should store references to generated outputs.
+Campaign stores references only.
 
-Campaign should NOT store full generated output content directly in the Campaign table.
+Campaign must not store large AI output content directly in the Campaign table.
 
-Output references include:
+Output references may include:
 
 - Generated Videos
 - Generated Captions
 - Generated Strategies
 - Generated Reports
+- Marketing Package reference
 
-## 7. Campaign Management
+## Campaign Management
 
 Campaign supports:
 
@@ -145,67 +137,40 @@ Campaign supports:
 
 Purpose:
 
-Allow users to manage larger numbers of Campaigns in the future.
+Help users manage larger numbers of campaigns over time.
 
-## 8. Duplicate Campaign
+## Duplicate Campaign
 
 Duplicate Campaign is supported.
 
-Duplicate may preserve:
+Rules:
 
-- Campaign Objective
-- Campaign Description
-- Target Audience Override
-- Campaign Brief
-- Assets (optional)
-- Tags (optional)
+- Campaign settings may be copied.
+- AI outputs are not copied.
+- Duplicated campaign regenerates new AI output.
+- Campaign Name may be suffixed with Copy.
 
-Campaign Name may be automatically suffixed with "Copy".
+## Campaign Language
 
-AI Outputs must not be copied.
+Campaign stores the following language fields:
 
-Duplicated Campaign must generate fresh AI Outputs.
+- Output Language
+- Subtitle Language
+- CTA Language
+- Hashtag Language
 
-## 9. Campaign Language
+All four language fields are required.
 
-Campaign stores language configuration:
+Rules:
 
-| Field | Required |
-| --- | --- |
-| Output Language | Yes |
-| Subtitle Language | Yes |
-| CTA Language | Yes |
-| Hashtag Language | Yes |
+- Current UI Language is used as the initial default.
+- AI may suggest a better language based on Campaign and Assets.
+- User confirms the final language.
+- User-confirmed language becomes the source of truth.
 
-Language selection behavior:
+## AI Analysis Priority
 
-- AI suggests language based on Campaign and Assets.
-- User may modify the suggested language.
-- Current UI Language may be used as the initial default.
-
-Language Suggestion Priority:
-
-1. Current UI Language is used as the initial default.
-2. AI analyzes Campaign Name, Campaign Objective, Campaign Brief, Uploaded Assets, and Business Profile.
-3. If AI detects a better language, it should suggest switching.
-4. User decides whether to accept AI suggestion or keep current language.
-
-Example:
-
-If UI Language is English, default campaign language is English.
-
-If uploaded video is mostly Chinese, AI may suggest Chinese.
-
-User can choose:
-
-- Accept
-- Keep Current
-
-## 10. AI Analysis Priority
-
-AI must not generate marketing plans from a single data point.
-
-AI analysis should follow this priority:
+AI analysis should follow this order:
 
 1. Campaign Name
 2. Campaign Objective
@@ -214,71 +179,175 @@ AI analysis should follow this priority:
 5. Business Profile
 6. Generate Marketing Plan
 
-If one layer is missing, continue with the next available layer.
+Rules:
 
-## 11. Super Admin AI Execution Console
+- AI must not generate marketing plans from a single data point.
+- If one layer is missing, continue with the next available layer.
 
-Future/admin-only requirement:
+## Marketing Package
 
-Super Admin should have access to an AI Execution Console.
+Each Campaign has one unified Marketing Package.
 
-Purpose:
+Marketing Package contains:
 
-Allow Super Admin to inspect AI execution traces and improve prompts, workflow, and product quality.
+- Strategy
+- Report
+- Hook
+- Caption
+- CTA
+- Hashtags
+- Subtitle
+- Video Reference
+- Marketing Score
+
+Marketing Package is stored separately from Campaign.
+
+Campaign stores a reference to the Marketing Package.
+
+## Regenerate
+
+Campaign supports regeneration by output type.
+
+Accepted regenerate actions:
+
+- Regenerate All
+- Strategy
+- Caption
+- CTA
+- Hashtags
+- Subtitle
+- Video
+- Marketing Report
+
+## Version Policy
+
+Accepted rules:
+
+- Keep Current Version
+- Keep Previous Version
+- Maximum 2 versions
+- Delete older AI outputs permanently
+- Keep audit logs
+
+## Ownership
+
+Ownership fields:
+
+- workspaceId auto
+- companyProfileId auto
+- createdBy auto
+- assignedTo optional
+
+## Delete Policy
+
+Campaign uses Soft Delete.
 
 Rules:
 
-- This is not visible to normal users.
-- It should not expose raw private chain-of-thought.
-- It may expose execution traces and summaries.
+- 7-day retention
+- Auto hard delete after retention
+- Store deletedAt
+- Store deletedBy
 
-It may expose:
+## Permission
 
-- AI Inputs
-- Input Summary
-- Detected Industry
-- Target Audience
-- Tone of Voice
-- Marketing Angle
-- Missing Information
-- Confidence Score
-- Workflow Step Trace
-- Intermediate Outputs
-- Final Outputs
-- Error Messages
+Campaign supports these actions:
 
-Future fields may include:
+- Create
+- Read
+- Update
+- Delete
+- Duplicate
+- Export
+- Generate
+- Regenerate
 
-- Cost
-- Tokens
-- Duration
-- Provider
-- Retry Count
+Actual permission rules come from the Permission Matrix.
 
-Preferred name:
+Permission Matrix is out of scope for SPEC-002.
 
-- AI Execution Console
+## Database Platform
 
-Not:
+Database platform:
 
-- AI Thinking Console
+- Supabase
 
-Reason:
+## Audit Fields
 
-The system should expose execution traces and summaries, not depend on hidden model reasoning.
+Campaign includes:
 
-## 12. Blueprint Design Principle
+- id
+- workspaceId
+- companyProfileId
+- createdAt
+- updatedAt
+- createdBy
+- updatedBy
+- deletedAt
+- deletedBy
+- version
 
-Use sensible defaults, then let AI recommend improvements instead of asking users to configure everything upfront.
+## Relationships
 
-This principle applies to:
+Campaign belongs to:
 
-- Campaign Language
-- Future subtitle style
-- Future CTA
-- Future hashtags
-- Future posting time
+- Workspace
+- Company Profile
+
+Campaign references:
+
+- Campaign Assets
+- Marketing Package
+- AI Outputs
+- Audit Logs
+
+## Dependencies
+
+Depends On:
+
+- Workspace
+- Business Profile
+- Asset Upload future specification
+- Permission Matrix future specification
+
+Referenced By:
+
+- Campaign Workspace UI
+- Marketing Package
+- AI Skills
+- Workflow Engine
+- Reporting
+
+## Out of Scope
+
+SPEC-002 does not define:
+
+- Upload API
+- Workflow Engine
+- AI Router
+- Prompt Design
+- Video Rendering
+- Publishing Schedule
+- Billing
+- Notification
+- Analytics Dashboard
+- Permission Matrix
+- Frontend UI
+
+## Future Specifications
+
+Future specifications may include:
+
+- SPEC-003 Asset Upload
+- SPEC-004 Marketing Package
+- SPEC-005 AI Job
+- SPEC-006 Publishing Schedule
+- SPEC-007 Notification
+- SPEC-008 Analytics Dashboard
+- SPEC-009 Permission Matrix
+- SPEC-010 Workflow Engine
+- UI-SPEC-002 Campaign Workspace
 
 ## Status
 
-SPEC-002 remains In Progress.
+SPEC-002 Campaign Schema is Locked.

@@ -310,15 +310,13 @@ Rules:
 ## Development Order
 
 ```text
-Schema
+Blueprint
+-> Architecture
+-> Data Specification
+-> UI Specification
 -> Workflow
--> AI Skills
--> Prompt Library
--> Workflow Engine
--> API
--> Frontend
--> Testing
--> Release
+-> Prompt
+-> Implementation
 ```
 
 ## Documentation Before Development
@@ -347,6 +345,82 @@ This principle applies to:
 - Future CTA
 - Future hashtags
 - Future posting time
+
+### UI Specification Rule
+
+Every completed Data Specification must have a corresponding UI Specification before implementation begins.
+
+Development order:
+
+```text
+Blueprint
+-> Architecture
+-> Data Specification
+-> UI Specification
+-> Workflow
+-> Prompt
+-> Implementation
+```
+
+Cursor must not design UI without a completed UI Specification.
+
+### AI Cost Control Principle
+
+AI should only be invoked when it provides meaningful user value.
+
+Do not invoke AI for:
+
+- Loading UI
+- Static validation
+- Database retrieval
+- Simple formatting
+- Calculations that do not require AI
+
+Prefer deterministic logic whenever possible.
+
+Reserve AI for:
+
+- Reasoning
+- Creativity
+- Semantic understanding
+- Marketing analysis
+
+### Background AI Work Principle
+
+AI jobs should run in the background when they may take time.
+
+Users should not be forced to wait on the page.
+
+Users may continue using EmberOS while AI generates marketing assets.
+
+System should notify users when output is ready.
+
+### User-Friendly Failure Principle
+
+Users should experience successful completion, not raw infrastructure failures.
+
+System should:
+
+- Auto retry temporary failures when possible
+- Hide technical errors from normal users
+- Show friendly explanations
+- Preserve completed outputs
+- Allow retry by section
+
+Super Admin may see execution details.
+
+### Progressive Guidance Principle
+
+EmberOS should guide users instead of blocking them.
+
+Prefer:
+
+- Inform
+- Recommend
+- Confirm
+- Execute
+
+Avoid unnecessary blocking unless required by security, data integrity, or payment rules.
 
 ## Architecture Principles
 

@@ -1,241 +1,356 @@
 # UI-SPEC-002 Campaign Workspace
 
+Status: Locked
+
 ## Purpose
 
 Defines the Campaign Workspace UI.
 
-This UI specification describes how users create, review, regenerate, and manage campaign work inside EmberOS.
+This UI specification explains how users create campaigns, upload inputs, generate marketing packages, regenerate outputs, and manage campaign activity.
 
-## Scope
+## Workspace Flow
 
-This specification covers:
+Workspace mode:
 
-- Upload Area
-- Campaign Form
-- Marketing Package
-- AI Status
-- Language Settings
-- Timeline
-- Version History
-- Regenerate Actions
-- Responsive Rules
-
-This specification does not define backend implementation, AI prompts, upload storage, or workflow engine behavior.
-
-## Layout
-
-The Campaign Workspace should be organized around the campaign creation and generation workflow:
-
-- Workspace Header
-- Upload Area
-- Campaign Form
-- Language Settings
-- AI Status
-- Marketing Package
-- Timeline
-- Version History
-- Regenerate Actions
-
-### Workspace Header
-
-The header should show:
-
-- Campaign title or draft name
-- Campaign business status
-- Save state
-- Primary action
-
-Campaign business status and AI job status must be visually separate.
-
-## Upload Area
-
-The Upload Area supports campaign input materials.
-
-The UI should allow users to provide source materials such as:
-
-- Image
-- Video
-- Document
-- URL
-- Text brief
-
-The Upload Area should show:
-
-- Empty state
-- Selected files or references
-- Upload or processing state, if available
-- Unsupported file message
-- Remove action
-
-The UI must not define the storage provider or upload API.
-
-## Campaign Form
-
-The Campaign Form should include fields for campaign planning and generation.
-
-Recommended fields:
-
-- Campaign Name
-- Campaign Objective
-- Campaign Brief
-- Product or Service focus
-- Target Audience override, if allowed
-- Campaign Description
-- Tags
-- Folder
-- Favorite state
-
-Campaign Objective should support predefined options and custom input when allowed by the specification.
-
-## Marketing Package
-
-The Marketing Package area shows generated campaign outputs.
-
-It may include:
-
-- Captions
-- Hooks
-- CTAs
-- Marketing Angles
-- Suggested Visual Direction
-- Posting Recommendations
-- Marketing Report
-- Success Prediction
-
-Generated outputs should be grouped by content type.
-
-Users should be able to review generated content without losing campaign form context.
-
-## AI Status
-
-AI Status must be separate from Campaign business status.
-
-AI Status UI may show:
-
-- Idle
-- Queued
-- Generating
-- Completed
-- Failed
-- Canceled
-
-The UI may also show:
-
-- Started time
-- Completed time
-- Error message
-- Retry action
-
-AI Status must not silently change Campaign business status.
-
-## Language Settings
-
-Language Settings should support the campaign language requirements from SPEC-002.
-
-The UI should include:
-
-- Input Language
-- Output Language
-- Caption Language
-- Report Language
-
-If AI suggests language settings, the UI should let the user accept the suggestion or keep the current value.
-
-User-confirmed language settings become the campaign source of truth.
-
-## Timeline
-
-The Timeline should show important campaign events when available:
-
-- Created
-- Updated
-- First Generated
-- Last Generated
-- Published
-- Archived
-
-Timeline entries should be readable and ordered by time.
-
-## Version History
-
-Version History should show generated output versions when available.
-
-Each version entry may include:
-
-- Version number
-- Generation time
-- Generation source
-- AI status result
-- Restore or view action, if supported
-
-Duplicating a campaign must not automatically copy generated AI outputs unless a future Product Decision allows it.
-
-## Regenerate Actions
-
-Regenerate Actions should allow users to regenerate campaign outputs.
-
-Supported UI actions may include:
-
-- Regenerate full Marketing Package
-- Regenerate selected output type
-- Retry failed generation
-
-The UI should warn users when regeneration may replace visible generated content or create a new version.
-
-## Validation UI
-
-Validation should be shown close to the related field.
-
-Validation UI should support:
-
-- Missing required campaign input
-- Missing campaign objective
-- Invalid URL
-- Unsupported upload type
-- Language setting conflict
-- Unsaved changes warning
-
-## Error UI
-
-Error UI should support:
-
-- Upload failure
-- Save failure
-- Generation failure
-- Network or sync failure
-- Invalid campaign input
-
-Errors should clearly separate user-fixable input issues from system or AI generation failures.
-
-## Responsive Rules
-
-### Desktop
-
-Desktop layout may use multiple working areas:
-
-- Left or primary area for input and form editing
-- Right or secondary area for AI status, timeline, and version history
-- Main output area for Marketing Package review
-
-### Tablet
-
-Tablet layout should stack secondary panels below the active workspace section.
-
-### Mobile
-
-Mobile layout should use a single-column flow.
+- Hybrid
 
 Rules:
 
-- No horizontal scrolling
-- Upload Area must remain tappable
-- Form fields must remain readable
-- AI Status must remain visible during generation
-- Marketing Package content should be grouped into collapsible sections when needed
-- Regenerate actions must not cover editable fields
+- First campaign uses Create Campaign Wizard.
+- Returning users use Campaign Workspace.
 
-## Version History
+Create Flow:
 
-### v1.0
+1. Campaign Name
+2. Campaign Objective
+3. Upload Assets
+4. Campaign Brief Optional
+5. AI Language Suggestion
+6. Generate
 
-Initial Campaign Workspace UI specification created.
+## Navigation
+
+Campaign Workspace belongs inside the EmberOS workspace experience.
+
+Expected areas:
+
+- Campaign list
+- Create Campaign Wizard
+- Campaign Workspace
+- Campaign detail tabs
+
+## Workspace Layout
+
+Workspace Tabs:
+
+1. Overview
+2. AI Video Studio
+3. Marketing Package
+4. Activity
+
+The layout should separate Campaign business status from AI generation status.
+
+## Campaign Creation
+
+Campaign creation UI includes:
+
+- Campaign Name
+- Campaign Objective
+- Upload Assets
+- Campaign Brief Optional
+- AI Language Suggestion
+- Generate Summary
+
+Campaign Objective supports dropdown and custom input.
+
+## Generate
+
+Rules:
+
+- Single sticky Generate button.
+- Generate creates complete Marketing Package only.
+- Generate Summary is shown before execution.
+- No split button for first Generate.
+
+## Regenerate
+
+Regenerate uses a split menu.
+
+Options:
+
+- Regenerate All
+- Strategy
+- Caption
+- CTA
+- Hashtags
+- Subtitle
+- Video
+- Marketing Report
+
+Regenerate should preserve completed outputs when possible.
+
+## Workflow Progress
+
+Workflow Progress includes:
+
+- Timeline
+- Current Step
+- Percentage
+- Estimated Remaining Time
+
+Users should understand that the system is working and what stage is currently active.
+
+## Background Generation
+
+Rules:
+
+- User does not need to wait on the page.
+- User can continue using EmberOS.
+- System notifies user when output is ready.
+
+## Notification
+
+Supported V1 notifications:
+
+- In-App Notification
+- Notification Center
+- Browser Notification with permission
+
+Future notification channels:
+
+- Email
+- WhatsApp
+- Mobile Push
+
+## AI Failure
+
+Failure UI should show:
+
+- User-friendly reason
+- Retry Section
+- Retry All
+- Cancel
+- Completed outputs remain visible
+
+Normal users should not see raw infrastructure errors.
+
+## AI Queue
+
+Normal Tenant sees simplified running status.
+
+Agency / Super Admin sees:
+
+- Running
+- Waiting
+- Completed Today
+- Estimated Finish
+
+## Marketing Package Cards
+
+Text cards support:
+
+- Copy
+- Edit
+- Regenerate
+- Export
+- Mark as Approved reserved
+
+User Edited Version:
+
+- Normal user sees edited version.
+- Super Admin can compare AI Original vs User Edited Diff.
+
+Approval:
+
+- Field reserved.
+- V1 does not emphasize approval flow.
+
+## Video Studio
+
+Desktop:
+
+- Right drawer
+
+Mobile:
+
+- Dedicated page
+
+Video Studio includes:
+
+- Cover
+- Caption
+- Subtitle
+- Voice
+- BGM
+- Style
+- Target Platform
+
+### Cover
+
+Cover options:
+
+- Auto Select
+- Choose Frame
+- Upload Cover
+- AI Cover Generation future
+
+### Caption
+
+Caption supports:
+
+- Edit
+- Rewrite
+- Regenerate
+- Multi-language
+
+### Subtitle
+
+Subtitle supports:
+
+- Edit
+- Regenerate
+- Multi-language
+
+### TTS
+
+TTS supports:
+
+- Multiple Voices
+- Multiple Languages
+- Preview
+- Regenerate TTS Only
+
+### BGM
+
+BGM rules:
+
+- BGM Library currently has about 60 tracks.
+- User selects category then track.
+- Preview is supported.
+- Start Offset is supported.
+- BGM Volume is supported.
+- Original Video Volume is supported.
+
+BGM Categories:
+
+- Happy
+- Luxury
+- Romantic
+- Elegant
+- Emotional
+- Fast
+- Slow
+- Trending
+
+### AI Style
+
+AI Style options:
+
+- Elegant
+- Luxury
+- Minimal
+- Modern
+- Warm
+- Professional
+- Cinematic
+- Fast-paced
+
+AI Style controls:
+
+- Subtitle style
+- Animation
+- Zoom
+- Transition
+- Filter
+- BGM style
+
+### Target Platform
+
+Target Platform options:
+
+- TikTok
+- Instagram Reels
+- Facebook Reels
+- YouTube Shorts
+- XiaoHongShu
+
+AI adapts:
+
+- Safe Area
+- Subtitle Size
+- CTA Position
+- Cover Ratio
+- Caption Style
+- Hashtag Style
+
+## Empty States
+
+Empty states should guide the user to the next action.
+
+Examples:
+
+- No campaign selected
+- No assets uploaded
+- No Marketing Package generated yet
+- No activity yet
+
+## Loading
+
+Loading states should show progress where possible.
+
+AI should not be invoked for static loading UI.
+
+## Success
+
+Success state should show that the complete Marketing Package is ready.
+
+User can then:
+
+- Review
+- Edit
+- Export
+- Regenerate
+
+## Error
+
+Errors should be friendly and actionable.
+
+Rules:
+
+- Preserve completed outputs.
+- Allow retry by section.
+- Allow Retry All.
+- Allow Cancel.
+
+## Responsive
+
+Desktop:
+
+- Overview and editing areas may sit beside status or activity panels.
+- AI Video Studio opens in a right drawer.
+
+Mobile:
+
+- Single-column flow.
+- AI Video Studio uses a dedicated page.
+- Sticky actions must not cover editable fields.
+
+## UX Principles
+
+- Generate should feel simple.
+- Regenerate should feel controlled.
+- AI progress should be visible.
+- Users should not be forced to wait on long AI jobs.
+- Completed outputs should not disappear after partial failure.
+
+## Dashboard
+
+Campaign dashboard may include:
+
+- Campaign Overview
+- Recent Activity
+- AI Queue Widget
+
+## Status
+
+UI-SPEC-002 Campaign Workspace is Locked.

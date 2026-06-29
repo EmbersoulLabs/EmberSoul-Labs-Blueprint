@@ -1,211 +1,255 @@
 # UI-SPEC-001 Business Profile Page
 
+Status: Locked
+
 ## Purpose
 
 Defines the Business Profile page layout.
 
-This UI specification describes how users review and maintain Business Profile data in EmberOS.
+This UI specification explains how users view, complete, analyze, and maintain Business Profile information in EmberOS.
 
-## Scope
+## Page Layout
 
-This specification covers:
+Page Mode:
 
-- Layout
-- Components
-- Validation UI
-- Error UI
-- Responsive Rules
+- Single Page
+- Card Sections
+- Auto Save
 
-This specification does not redefine Business Profile data rules. Data rules remain in SPEC-001 Business Profile.
+Navigation:
 
-## Layout
+```text
+Workspace -> Settings -> Business Profile
+```
 
-The Business Profile page should be organized into clear editing sections:
+The page is organized as vertical cards.
 
-- Page Header
-- Profile Completion Summary
-- Business Information
-- Services
-- Brand Identity
-- Business Assets
-- Social Links
-- Business Hours
-- Languages and Region
-- Save Actions
+Card order:
 
-### Page Header
+1. Business Overview
+2. Contact & Location
+3. Brand Identity
+4. Business Assets
+5. Languages
+6. Business Hours
 
-The header should show:
+## Header
 
-- Page title
-- Business profile status
-- Last updated time, if available
-- Primary save action
+Header includes:
 
-### Profile Completion Summary
+- Business Profile title
+- Completion percentage
+- Save Status
+- Analyze Business button
+- Language Switch
 
-The summary should show whether important profile sections are complete, incomplete, or optional.
+## Progress
 
-The summary must not block the user from saving optional fields.
+Completion progress should update as users complete required or recommended fields.
 
-### Business Information
+Rules:
 
-This section includes:
+- Incomplete cards show warning state.
+- Optional fields do not block progress entirely.
+- Generate is not blocked by incomplete profile.
+- Show notice that incomplete profile may reduce AI quality.
+
+## Sections
+
+### Business Overview
+
+Includes:
 
 - Company Name
 - Industry
-- Region
+- Services
 - Business Description
 - Target Audience
 
-### Services
+### Contact & Location
 
-This section includes:
-
-- Service List editor
-- Service Description field
-
-The UI should make the Service List visually primary.
-
-The Description field is supporting context.
-
-### Brand Identity
-
-This section includes:
-
-- Logo reference
-- Brand color detection result
-- Workspace Default Theme fallback indicator
-
-The UI should not define upload behavior.
-
-### Business Assets
-
-This section includes references to:
-
-- Logo
-- Brand Images
-- Brand Fonts
-
-Upload workflow belongs to SPEC-003 Asset Upload.
-
-### Social Links
-
-This section includes optional fields for:
+Includes:
 
 - Website
-- Facebook
-- Instagram
-- TikTok
-- LinkedIn
-- YouTube
-- Xiaohongshu
-- WhatsApp Business
-
-### Business Hours
-
-Business Hours should be shown as structured weekly entries.
-
-Each day should support:
-
-- Open or Closed state
-- Open Time
-- Close Time
-
-Business Hours remain optional.
-
-### Languages and Region
-
-This section should support:
-
+- Social links
 - Country
 - City
 - Timezone
-- Workspace language context, if available
 
-Timezone UI should follow SPEC-001 detection behavior:
+### Brand Identity
 
-1. Browser Timezone
-2. Country + City
-3. Manual Selection
+Includes:
+
+- Logo reference
+- Brand colors
+- Brand style
+- Brand voice
+
+### Business Assets
+
+Rules:
+
+- Logo upload is separate.
+- Business Assets use one Upload Area.
+- No AI auto-classification in V1.
+
+### Languages
+
+Includes business language context and UI language switch placement.
+
+### Business Hours
+
+Includes optional structured business hours.
+
+## Save Experience
+
+Save mode:
+
+- Auto Save
+
+Save Status values:
+
+- Saving...
+- Saved
+- Save Failed
+
+Rules:
+
+- Never clear user input after save failure.
+- Retry should be available after save failure.
+
+## Validation
+
+Required Field UI:
+
+- Red *
+- Card warning when incomplete
+- Completion progress updates
+- Generate is not blocked
+
+Validation should be shown near the relevant field.
+
+## AI Analysis
+
+AI Analysis uses one button:
+
+- Analyze Business
+
+Rules:
+
+- No multiple AI buttons per field.
+- AI suggests; user accepts, rejects, or edits.
+- AI never auto-overwrites user input.
+- AI should not run during loading UI.
+
+## Upload
+
+Business Profile UI may reference upload areas, but upload implementation belongs to the Asset Upload specification.
+
+Rules:
+
+- Logo upload is separate.
+- Business Assets use one Upload Area.
+- No AI auto-classification in V1.
+
+## Card Behaviour
+
+Cards should support:
+
+- Complete state
+- Incomplete warning state
+- Save failed state
+- Collapsed or expanded state when useful
+
+Cards must not hide validation errors from the user.
+
+## Loading
+
+Loading UI uses Skeleton Loading.
+
+Rules:
+
+- No AI call during loading.
+- No spinner-only loading state.
+
+## Empty State
+
+Empty states should guide users without blocking them.
+
+Onboarding rules:
+
+- User can skip.
+- Show notice that incomplete profile may reduce AI quality.
+
+## Success State
+
+Success state:
+
+- Business Profile Complete
+
+CTA:
+
+- Create Campaign
+
+## Error State
+
+Error state:
+
+- Save Failed
+- Retry
+- Never clear user input
+
+Errors should be user-friendly and should not expose raw infrastructure failures to normal users.
+
+## Responsive
+
+Desktop:
+
+- Sidebar + vertical cards
+
+Mobile:
+
+- Vertical cards
+
+Rules:
+
+- No horizontal scrolling.
+- Primary actions remain reachable.
+- Cards remain readable on small screens.
 
 ## Components
 
-The page may use the following component types:
+Components may include:
 
 - Text input
 - Text area
 - Dropdown
-- Custom value input
-- Service list editor
-- Weekly hours editor
-- Link input
-- Timezone selector
-- Asset reference selector
-- Section status indicator
-- Save button
-- Cancel or discard button
+- Custom input
+- Tag input
+- Upload area
+- Progress indicator
+- Card warning indicator
+- Save status indicator
+- Analyze Business button
+- Language switch
 
-## Validation UI
-
-Validation should be shown close to the related field.
-
-Validation UI should support:
-
-- Required field message
-- Invalid URL message
-- Invalid time range message
-- Duplicate service warning
-- Unsaved changes warning
-- Company Name change warning
-
-Optional fields should be clearly marked as optional.
-
-Company Name changes should warn the user that future AI outputs may be affected and existing campaigns are not regenerated automatically.
-
-## Error UI
-
-Error UI should support:
-
-- Save failure
-- Network or sync failure
-- Validation failure
-- Asset reference unavailable
-- Timezone detection unavailable
-
-Errors should explain what the user can do next.
-
-Errors should not imply that optional fields are required.
-
-## Responsive Rules
-
-### Desktop
-
-Desktop layout may use two columns when space allows:
-
-- Main editing sections
-- Completion summary and status panel
-
-Primary actions should remain visible near the top or bottom of the editing flow.
-
-### Tablet
-
-Tablet layout should collapse secondary panels below the active editing section.
-
-### Mobile
-
-Mobile layout should use a single-column flow.
+## Accessibility
 
 Rules:
 
-- No horizontal scrolling
-- Fields must remain readable
-- Buttons must remain tappable
-- Section status should not cover form content
-- Save actions may become a bottom action bar
+- Required fields must not rely on color only.
+- Error messages should be readable by assistive technology.
+- Buttons must have clear labels.
+- Keyboard navigation must remain possible through all cards.
 
-## Version History
+## UX Principles
 
-### v1.0
+- Guide users instead of blocking them.
+- Keep Business Profile setup low-friction.
+- Do not force users to complete optional fields.
+- Preserve user input during errors.
+- Let AI suggest improvements without overwriting user decisions.
 
-Initial Business Profile UI specification created.
+## Status
+
+UI-SPEC-001 Business Profile Page is Locked.

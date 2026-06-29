@@ -4,19 +4,17 @@ ID: PD-SPEC002
 
 Specification: SPEC-002 Campaign Schema
 
-Status: In Progress
-
-Update Type: Specification Partial Update
+Status: Locked
 
 ## Purpose
 
-This document records accepted SPEC-002 Campaign Schema decisions so far.
+Records accepted user decisions for SPEC-002 Campaign Schema.
 
-This is a partial decision log.
+Only accepted decisions are listed as Product Decisions.
 
-SPEC-002 is not locked.
+## User Decisions
 
-## Decision 001: Campaign Information
+### PD-SPEC002-001 Campaign Information
 
 Campaign stores:
 
@@ -35,27 +33,14 @@ Optional:
 - Campaign Description
 - Target Audience Override
 
+### PD-SPEC002-002 Campaign Objective
+
 Campaign Objective supports:
 
 - Dropdown
 - Custom
 
-Accepted objective examples:
-
-- Brand Awareness
-- Lead Generation
-- Sales
-- Promotion
-- Event
-- Product Launch
-- Seasonal Campaign
-- Custom
-
-## Decision 002: Campaign Status vs AI Job Status
-
-Campaign Status and AI Job Status must be separated.
-
-Campaign Status represents business status only.
+### PD-SPEC002-003 Campaign Status
 
 Campaign Status values:
 
@@ -64,49 +49,35 @@ Campaign Status values:
 - Completed
 - Archived
 
-AI generation progress does not belong to Campaign Status.
+Campaign Status is business status only.
 
-AI Job will be handled by a future separate specification.
+AI status belongs to AI Job.
 
-## Decision 003: Campaign Assets
+### PD-SPEC002-004 Campaign Assets
 
-Campaign supports these input sources:
+Campaign uses one unified Upload / Drag & Drop area.
 
-- Uploaded Videos
-- Uploaded Images
-- Uploaded Documents
+Supported assets:
+
+- Videos
+- Images
+- Documents
 - External URL
-
-UI Rule:
-
-- All input sources should be handled through one unified upload box or drag-and-drop area.
-- The user should not see four separate upload sections.
-- Schema must still record asset type internally.
-
-Validation Rule:
-
-- At least one input source is required before AI Generate.
-
-## Decision 004: Campaign Brief
-
-Campaign Brief is saved.
-
-Required:
-No
-
-Preferred:
-Yes
 
 Rules:
 
-- AI should prioritize Campaign Brief when it exists.
-- If Campaign Brief does not exist, AI should continue using Campaign Name, Campaign Objective, Uploaded Assets, and Business Profile.
+- Asset type is recorded internally.
+- At least one input source is required before AI Generate.
 
-## Decision 005: Campaign Timeline
+### PD-SPEC002-005 Campaign Brief
 
-Campaign Scheduling is not part of SPEC-002.
+Campaign Brief is optional but preferred.
 
-Campaign should record audit timeline fields instead:
+AI prioritizes Campaign Brief when available.
+
+### PD-SPEC002-006 Campaign Timeline
+
+Campaign records:
 
 - Created At
 - Updated At
@@ -115,22 +86,13 @@ Campaign should record audit timeline fields instead:
 - Published At
 - Archived At
 
-Future publishing schedule should be defined in a separate Publishing Specification.
+### PD-SPEC002-007 Campaign Outputs
 
-## Decision 006: Campaign Outputs
+Campaign stores references only.
 
-Campaign should store references to generated outputs.
+Large AI output content is not stored directly in Campaign table.
 
-Campaign should NOT store full generated output content directly in the Campaign table.
-
-Output references include:
-
-- Generated Videos
-- Generated Captions
-- Generated Strategies
-- Generated Reports
-
-## Decision 007: Campaign Management
+### PD-SPEC002-008 Campaign Management
 
 Campaign supports:
 
@@ -138,58 +100,35 @@ Campaign supports:
 - Folder
 - Favorite
 
-Purpose:
-
-Allow users to manage larger numbers of Campaigns in the future.
-
-## Decision 008: Duplicate Campaign
+### PD-SPEC002-009 Duplicate Campaign
 
 Duplicate Campaign is supported.
 
-Duplicate may preserve:
+Rules:
 
-- Campaign Objective
-- Campaign Description
-- Target Audience Override
-- Campaign Brief
-- Assets (optional)
-- Tags (optional)
+- AI outputs are not copied.
+- Duplicated campaign regenerates new AI output.
 
-Campaign Name may be automatically suffixed with "Copy".
+### PD-SPEC002-010 Campaign Language
 
-AI Outputs must not be copied.
-
-Duplicated Campaign must generate fresh AI Outputs.
-
-## Decision 009: Campaign Language
-
-Campaign stores language configuration:
+Campaign stores:
 
 - Output Language
 - Subtitle Language
 - CTA Language
 - Hashtag Language
 
-All four language fields are required.
+All are required.
 
-Language selection behavior:
+Current UI Language is used as initial default.
 
-- AI suggests language based on Campaign and Assets.
-- User may modify the suggested language.
-- Current UI Language may be used as the initial default.
+AI may suggest better language.
 
-Language Suggestion Priority:
+User confirms final language.
 
-1. Current UI Language is used as the initial default.
-2. AI analyzes Campaign Name, Campaign Objective, Campaign Brief, Uploaded Assets, and Business Profile.
-3. If AI detects a better language, it should suggest switching.
-4. User decides whether to accept AI suggestion or keep current language.
+### PD-SPEC002-011 AI Analysis Priority
 
-## Decision 010: AI Analysis Priority
-
-AI must not generate marketing plans from a single data point.
-
-AI analysis should follow this priority:
+AI analysis priority:
 
 1. Campaign Name
 2. Campaign Objective
@@ -198,69 +137,107 @@ AI analysis should follow this priority:
 5. Business Profile
 6. Generate Marketing Plan
 
-If one layer is missing, continue with the next available layer.
+### PD-SPEC002-012 Marketing Package
 
-## Decision 011: Super Admin AI Execution Console
+Campaign has one unified Marketing Package.
 
-Super Admin should have access to an AI Execution Console.
+Marketing Package contains:
 
-Purpose:
+- Strategy
+- Report
+- Hook
+- Caption
+- CTA
+- Hashtags
+- Subtitle
+- Video Reference
+- Marketing Score
 
-Allow Super Admin to inspect AI execution traces and improve prompts, workflow, and product quality.
+Marketing Package is stored separately from Campaign.
+
+### PD-SPEC002-013 Regenerate
+
+Campaign supports:
+
+- Regenerate All
+- Strategy
+- Caption
+- CTA
+- Hashtags
+- Subtitle
+- Video
+- Marketing Report
+
+### PD-SPEC002-014 Version Policy
 
 Rules:
 
-- This is not visible to normal users.
-- It should not expose raw private chain-of-thought.
-- It may expose execution traces and summaries.
+- Keep Current Version
+- Keep Previous Version
+- Maximum 2 versions
+- Delete older AI outputs permanently
+- Keep audit logs
 
-It may expose:
+### PD-SPEC002-015 Ownership
 
-- AI Inputs
-- Input Summary
-- Detected Industry
-- Target Audience
-- Tone of Voice
-- Marketing Angle
-- Missing Information
-- Confidence Score
-- Workflow Step Trace
-- Intermediate Outputs
-- Final Outputs
-- Error Messages
+Ownership fields:
 
-Future fields may include:
+- workspaceId auto
+- companyProfileId auto
+- createdBy auto
+- assignedTo optional
 
-- Cost
-- Tokens
-- Duration
-- Provider
-- Retry Count
+### PD-SPEC002-016 Delete Policy
 
-Preferred name:
+Campaign uses Soft Delete.
 
-- AI Execution Console
+Rules:
 
-Not:
+- 7-day retention
+- Auto hard delete after retention
+- deletedAt
+- deletedBy
 
-- AI Thinking Console
+### PD-SPEC002-017 Permission
 
-Reason:
+Campaign supports:
 
-The system should expose execution traces and summaries, not depend on hidden model reasoning.
+- Create
+- Read
+- Update
+- Delete
+- Duplicate
+- Export
+- Generate
+- Regenerate
 
-## Decision 012: Blueprint Design Principle
+Actual permission comes from Permission Matrix.
 
-Use sensible defaults, then let AI recommend improvements instead of asking users to configure everything upfront.
+### PD-SPEC002-018 Database Platform
 
-This principle applies to:
+Database platform:
 
-- Campaign Language
-- Future subtitle style
-- Future CTA
-- Future hashtags
-- Future posting time
+- Supabase
+
+### PD-SPEC002-019 Audit Fields
+
+Campaign includes:
+
+- id
+- workspaceId
+- companyProfileId
+- createdAt
+- updatedAt
+- createdBy
+- updatedBy
+- deletedAt
+- deletedBy
+- version
+
+## Architect Recommendations
+
+No additional architect recommendations are accepted as Product Decisions in this update.
 
 ## Status
 
-SPEC-002 remains In Progress.
+SPEC-002 Campaign Schema is Locked.
