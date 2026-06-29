@@ -132,6 +132,26 @@ Updated:
 - Interview
 - Release Notes
 
+## In Progress
+
+### SPEC-002 Campaign Schema
+
+Accepted decisions added for:
+
+- Campaign Information
+- Campaign Status separation
+- Campaign Assets
+- Campaign Brief
+- Campaign Timeline
+- Campaign Outputs
+- Campaign Management
+- Duplicate Campaign
+- Campaign Language
+- AI Analysis Priority
+- Super Admin AI Execution Console
+
+Status: In Progress
+
 ## Next Specification
 
 SPEC-002 Campaign Schema

@@ -334,6 +334,20 @@ Any development must be supported by:
 
 before coding.
 
+## Design Principles
+
+### Sensible Defaults With AI Recommendations
+
+Use sensible defaults, then let AI recommend improvements instead of asking users to configure everything upfront.
+
+This principle applies to:
+
+- Campaign Language
+- Future subtitle style
+- Future CTA
+- Future hashtags
+- Future posting time
+
 ## Architecture Principles
 
 ### AP-001 Workspace Architecture
