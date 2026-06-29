@@ -307,6 +307,23 @@ Do not skip stages.
 
 The goal is to progressively complete the Product Specification until Cursor can implement it without guessing.
 
+## 17. Repository Structure Rule
+
+Codex must follow the existing repository directory structure.
+
+Codex must not reorganize directories, rename folders, move files, or create a new structure during normal specification updates.
+
+If repository structure needs to change, it must be handled as a separate Repository Refactor task.
+
+Repository Refactor must be:
+
+- Explicitly requested by Yuki
+- Documented as its own decision
+- Executed in a separate commit
+- Not mixed with Specification updates
+
+Normal Specification updates must only add or update files inside the existing product directory structure.
+
 ## Version
 
 v1.0
