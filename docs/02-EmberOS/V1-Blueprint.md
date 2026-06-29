@@ -334,6 +334,176 @@ Any development must be supported by:
 
 before coding.
 
+## Architecture Principles
+
+### AP-001 Workspace Architecture
+
+Purpose:
+Define the permanent multi-tenant architecture of EmberOS.
+
+Workspace is the primary data isolation boundary.
+
+Each Workspace owns exactly one Company Profile.
+
+Architecture:
+
+```text
+Tenant
+-> Workspace
+-> Company Profile
+-> Campaigns
+```
+
+Normal Tenant:
+
+```text
+1 Tenant
+-> 1 Workspace
+-> 1 Company Profile
+```
+
+Rules:
+
+- One Tenant owns one Workspace.
+- One Workspace owns one Company Profile.
+- One Company Profile is shared by all Campaigns inside the Workspace.
+
+Agency / Admin Tenant:
+
+```text
+Agency Tenant
+-> Workspace A -> Company Profile A
+-> Workspace B -> Company Profile B
+-> Workspace C -> Company Profile C
+```
+
+Rules:
+
+- One Agency Tenant may own multiple Workspaces.
+- Each Workspace owns exactly one Company Profile.
+- Data must never be shared across Workspaces unless explicitly implemented in future specifications.
+
+Design Principles:
+
+- Workspace is the security boundary.
+- Company Profile belongs to Workspace.
+- Campaign belongs to Workspace.
+- AI Context belongs to Workspace.
+- Assets belong to Workspace.
+- Billing may belong to Workspace.
+
+### AP-002 Language Separation
+
+Language responsibilities are separated into three independent layers.
+
+#### UI Language
+
+Owner:
+User Settings
+
+Purpose:
+
+- Application Interface
+- Navigation
+- Labels
+- Buttons
+- Error Messages
+
+Rules:
+
+- User can switch language anytime.
+- Language switch is available from the application header.
+- UI Language never affects AI output.
+
+#### Business Languages
+
+Owner:
+Company Profile
+
+Purpose:
+Represents the long-term languages supported by the business.
+
+Examples:
+
+- English
+- Chinese
+- Bahasa Melayu
+- Japanese
+
+Rules:
+
+- Used as business context.
+- Available to AI Skills.
+- Does not determine Campaign output language.
+
+#### Campaign Language
+
+Owner:
+Campaign
+
+Purpose:
+Determines language for the current marketing task.
+
+May include:
+
+- Output Language
+- Subtitle Language
+- CTA Language
+- Marketing Copy Language
+
+Rules:
+
+- Campaign Language is determined by Campaign Goal, Uploaded Assets, Target Audience, and AI Analysis.
+- It is independent from UI Language and Business Languages.
+
+### AP-003 AI Provider Architecture
+
+Status:
+Future
+
+Target Specification:
+SPEC-010 Workflow Engine
+
+Principle:
+Workflow is stable. AI Providers are replaceable.
+
+Architecture:
+
+```text
+Workflow Engine
+-> AI Router
+-> Provider
+```
+
+Rules:
+
+- Users never select AI Providers.
+- AI Router automatically selects the appropriate Provider.
+- Workflow must remain unchanged when Providers change.
+- Business Logic belongs to Workflow.
+- Provider implementation is replaceable.
+
+Admin Override:
+Admin may manually choose a Provider for:
+
+- Testing
+- Benchmarking
+- Cost comparison
+- Failover
+
+This option is hidden from normal users.
+
+Long-term Goal:
+Future Provider selection may consider:
+
+- Quality
+- Cost
+- Latency
+- Availability
+- Success Rate
+
+without requiring any UI changes.
+
 ## Competitive Strategy
 
 EmberOS does not compete feature-by-feature with ChatGPT, CapCut or Canva.

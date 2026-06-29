@@ -1,243 +1,270 @@
-# Business Profile Specification
+# SPEC-001 Business Profile
+
+Status: Locked
+
+Version: 1.0
 
 ## Purpose
 
-Business Profile stores the core long-term business facts used by EmberOS for AI planning, marketing content generation, campaign creation, reporting, and future publishing workflows.
+Business Profile stores the long-term business information for a Workspace.
 
-Business Profile is background context. Campaign context can override generic Business Profile assumptions when the campaign is more specific.
+It represents the business identity and provides shared context for all AI Skills.
 
-## Required Fields
+Business Profile does NOT store Campaign-specific configuration.
+
+Business Profile does NOT store UI preferences.
+
+## Scope
+
+- One Workspace owns exactly one Business Profile.
+- One Business Profile may be shared by multiple Campaigns.
+
+## Business Information
+
+| Field | Required |
+| --- | --- |
+| Company Name | Yes |
+| Industry | Yes |
+| Services | Yes, minimum 1 |
+| Business Description | Yes |
+| Target Audience | Yes |
+| Business Hours | No |
+
+Rules:
+
+### Company Name
+
+- Editable.
+
+### Industry
+
+Input:
+
+- Dropdown
+- Custom Value
+
+### Services
+
+- Supports multiple selections.
+- Custom services allowed.
+
+### Business Description
+
+- Editable.
+- AI may improve the description.
+
+### Target Audience
+
+- Editable.
+- AI may suggest audience.
+
+### Business Hours
+
+- Optional.
+
+## Contact Information
+
+| Field | Required |
+| --- | --- |
+| Business Email | Yes |
+| Business Phone | Yes |
+| WhatsApp Business | No |
+| Website | No |
+| Facebook | No |
+| Instagram | No |
+| TikTok | No |
+| YouTube | No |
+| RedNote | No |
+| LinkedIn | No |
+
+Rules:
+
+- Social links must store complete URLs.
+- Example: `https://instagram.com/yourbusiness` instead of `@yourbusiness`.
+
+## Location
+
+| Field | Required |
+| --- | --- |
+| Country | Yes |
+| State / Province | No |
+| City | No |
+| Address | Yes |
+| Postal Code | Yes |
+| Timezone | Auto |
+
+Timezone:
+
+- Automatically detected.
+- If detection fails, user manually selects Timezone.
+- Timezone is stored after confirmation.
+
+## Brand Identity
+
+| Field | Required |
+| --- | --- |
+| Brand Personality | No |
+| Brand Style | No |
+| Brand Values | No |
+| Brand Keywords | Yes |
+
+Input Type:
+
+| Field | Input |
+| --- | --- |
+| Brand Personality | Multi Select, Custom |
+| Brand Style | Multi Select, Custom |
+| Brand Values | Multi Select, Custom |
+| Brand Keywords | Tag Input, Custom |
+
+Minimum:
+
+- 1 Keyword
+
+## Business Assets
+
+| Asset | Required |
+| --- | --- |
+| Logo | No |
+| Brand Colors | No |
+| Brand Fonts | No |
+| Brand Images | No |
+
+Rules:
+
+- Brand Assets represent long-term business resources.
+- Campaign uploads are NOT Business Assets.
+
+## Languages
+
+Business Profile stores:
+
+- Supported Languages
+
+Input:
+
+- Multi Select
+- Custom
+
+Examples:
+
+- English
+- Chinese
+- Bahasa Melayu
+- Japanese
+
+Rules:
+
+- Business Languages are business capabilities only.
+- They do not determine Campaign output.
+
+## Validation Rules
+
+A Business Profile must be completed before creating a Campaign.
+
+Required:
 
 - Company Name
 - Industry
 - Services
-- Region
+- Business Description
 - Target Audience
-- Brand Voice
+- Business Email
+- Business Phone
+- Country
+- Address
+- Postal Code
+- Brand Keywords
 
-## Fields
+Everything else is optional.
 
-### companyName
+## AI Usage
 
-Type:
-string
+Business Profile provides shared business context.
 
-Required:
-true
+AI Skills should read only the fields required to complete the current task.
 
-AI Usage:
-Used as the business identity for AI outputs.
+Examples:
 
-Rules:
-- Editable.
-- Warn user before changing.
-- Changes may affect future AI outputs.
-- Existing Campaigns are not regenerated automatically.
+### Business Strategy
 
-### industry
+May use:
 
-Type:
-string
-
-Required:
-true
-
-Input:
-Dropdown + Custom
-
-AI Usage:
-Used as core business context for Marketing Angle, Hook, Caption, CTA, Marketing Report, and Success Prediction.
-
-Rules:
-- User may select from predefined industry options.
-- User may enter a custom industry.
-
-### services
-
-Type:
-object or array
-
-Required:
-true
-
-Structure:
-- Service List
+- Industry
 - Description
+- Audience
+- Brand Identity
 
-AI Usage:
-Used to understand what the business sells or provides.
+### Translation
 
-Rules:
-- AI prioritizes Service List.
-- Description is supporting context.
+May use:
 
-### region
+- Supported Languages
 
-Type:
-string
+### Marketing Analysis
 
-Required:
-true
+May use:
 
-AI Usage:
-Used for audience, cultural, platform, timing, and market assumptions.
+- Entire Business Profile
 
-Rules:
-- AI may infer from user profile or workspace context only when reasonable.
-- If region is missing or uncertain, ask user to confirm.
+## Database Platform
 
-### targetAudience
+Supabase
 
-Type:
-array or string
+## Audit Fields
 
-Required:
-true
+- id
+- workspaceId
+- createdAt
+- updatedAt
+- createdBy
+- updatedBy
+- deletedAt
+- version
 
-AI Usage:
-Used by Marketing Angle, Hook, Caption, CTA, Marketing Report, and Success Prediction.
+## Relationship
 
-Rules:
-- AI may infer from Industry, Services, and Region.
-- User may edit.
-- User-confirmed value becomes source of truth.
-- If confidence is low, ask for confirmation.
-
-Flow:
-AI Suggest -> User Confirm -> Source of Truth
-
-### brandVoice
-
-Type:
-array
-
-Required:
-true
-
-Input:
-Campaign-level multi-select
-
-AI Usage:
-Controls tone and communication style for generated marketing content.
+```text
+Tenant
+-> Workspace
+-> Business Profile
+-> Campaign
+```
 
 Rules:
-- Brand Voice is selected at campaign level.
-- Multiple values may be selected.
-- Campaign-level Brand Voice can override generic Business Profile tone assumptions.
 
-### businessDescription
+- One Workspace owns one Business Profile.
+- Business Profile belongs to exactly one Workspace.
+- Campaigns inherit Business Context from Business Profile.
 
-Type:
-string
+## Out of Scope
 
-Required:
-false
+Business Profile does NOT include:
 
-AI Usage:
-Provides business context for AI planning and marketing content generation.
+- Campaign Settings
+- Output Language
+- Subtitle Language
+- CTA Language
+- Hashtag Language
+- AI Model Selection
+- UI Language
 
-Rules:
-- User can write rough text.
-- AI can polish or ask clarification.
-- AI cannot invent business facts without confirmation.
+Those belong to other Specifications.
 
-### businessHours
+## Dependencies
 
-Type:
-object or array
+Depends on:
 
-Required:
-false
+- Workspace
 
-AI Usage:
-May support Schedule Posting, Auto Reply, Marketing Timing, and profile completeness.
+Referenced by:
 
-Rules:
-- Optional.
-- Missing value must not block generation.
-- Useful for businesses with fixed operating hours.
-- Not required for freelancers.
-
-### logo
-
-Type:
-string or asset reference
-
-Required:
-false
-
-AI Usage:
-Used for brand recognition and brand asset context.
-
-Rules:
-- Optional.
-- Missing Logo must not block Campaign generation.
-
-### brandColors
-
-Type:
-array or object
-
-Required:
-false
-
-AI Usage:
-Used for visual consistency in generated assets and future brand-aware workflows.
-
-Rules:
-- AI detects colors from Logo when available.
-- If Logo is unavailable, use Workspace Default Theme.
-
-### socialLinks
-
-Type:
-object
-
-Required:
-false
-
-Stored Links:
-- Website
-- Facebook
-- Instagram
-- TikTok
-- LinkedIn
-- YouTube
-- Xiaohongshu
-- WhatsApp Business
-
-AI Usage:
-May support future Auto Publish, CTA, and Analytics features.
-
-Rules:
-- Optional.
-- Store for future Auto Publish.
-- Missing Social Links must not block Campaign generation.
-
-### businessAssets
-
-Type:
-array or object
-
-Required:
-false
-
-AI Usage:
-Stores additional business brand or marketing assets for future workflows.
-
-Rules:
-- Optional.
-- May include reusable brand, product, or campaign assets.
-
-## Low Confidence Confirmation Flow
-
-Rules:
-- AI may infer from available context.
-- AI must ask user to confirm when key context is missing or confidence is low.
-- AI must not silently assume critical facts.
-- If video and Business Profile conflict, ask user to confirm.
-
-## Version History
-
-- v1.0 - Added Business Profile schema fields from Session 010 and Session 011.
-- v1.1 - Merged Blueprint v1.2 required fields, Brand Voice, Region, and Low Confidence Confirmation Flow.
+- Campaign
+- AI Skills
+- Workflow Engine
+- Marketing Report
+- Business Strategy
+- Subtitle Generation
+- Caption Generation
+- Translation
+- Future AI Router
