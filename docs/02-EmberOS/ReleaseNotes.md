@@ -132,6 +132,23 @@ Updated:
 - Interview
 - Release Notes
 
+## Patch
+
+### SPEC-001 Patch v1.1
+
+Status: Locked (Patch)
+
+Completed:
+
+- Industry Dictionary definition
+- Business Hours schema
+- Timezone detection behavior
+- Upload dependency clarification
+- AI enhancement separation
+- UI dependency clarification
+- Dependencies section
+- Out of Scope section
+
 ## In Progress
 
 ### SPEC-002 Campaign Schema

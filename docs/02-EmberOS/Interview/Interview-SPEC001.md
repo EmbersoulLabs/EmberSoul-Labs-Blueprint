@@ -234,6 +234,30 @@ Agency Tenant:
 -> One Company Profile
 ```
 
+## Patch v1.1 Implementation Review
+
+Status: Completed
+
+Result: Accepted as specification patch
+
+Purpose:
+
+Complete missing specifications discovered during implementation review.
+
+Patch v1.1 does not redesign Business Profile and does not change accepted Product Decisions.
+
+Accepted clarifications:
+
+- Industry values come from Industry Dictionary and are not hardcoded inside Business Profile.
+- Business Hours use structured JSON and remain optional.
+- Timezone detection behavior is Browser Timezone, then Country + City, then Manual Selection.
+- Business Profile stores only asset references and does not define upload behavior.
+- AI enhancement functions are outside SPEC-001.
+- Frontend UI behavior is outside SPEC-001.
+- Dependencies section clarifies cross-specification relationships.
+- Out of Scope section prevents implementation guessing.
+- Shared dictionaries are a future repository architecture note only.
+
 ## Interview Summary
 
 Completed Topics: 10
@@ -242,11 +266,14 @@ Open Topics: 0
 
 Specification Status: Completed
 
+SPEC-001 Status: Locked
+
+Patch v1.1 Status: Locked
+
 Next Stage: SPEC-002 Campaign Schema
 
 Repository Actions:
 
-- Update Blueprint
 - Update Specification
 - Update Decision Log
 - Update Interview

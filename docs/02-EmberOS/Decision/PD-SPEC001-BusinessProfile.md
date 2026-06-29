@@ -6,7 +6,7 @@ Specification: SPEC-001 Business Profile
 
 Status: Accepted
 
-Version: 1.0
+Version: 1.1 Patch
 
 Date: 2026-06-29
 
@@ -217,6 +217,165 @@ This architecture simplifies:
 - Assets
 - Campaign ownership
 
+## Patch v1.1 Clarifications
+
+These clarifications complete missing specification details discovered during implementation review.
+
+They do NOT redesign Business Profile and do NOT change accepted Product Decisions.
+
+### Patch 001: Industry Dictionary
+
+Business Profile shall not hardcode industry values.
+
+Industry input remains:
+
+- Dropdown
+- Custom
+
+Dropdown values shall come from Industry Dictionary.
+
+Future shared dictionary location:
+
+- `Shared/Dictionaries/IndustryDictionary.md`
+
+Business Profile stores:
+
+- Industry ID when selected
+- Display Name
+- Custom Value if applicable
+
+Rules:
+
+- Supports localization.
+- Supports future expansion.
+- Supports custom industries.
+
+### Patch 002: Business Hours Schema
+
+Business Hours shall use structured JSON.
+
+Business Hours remains optional.
+
+Purpose:
+
+- Easier validation
+- Easier frontend binding
+- Easier API
+- Compatible with Supabase JSONB
+
+### Patch 003: Timezone Detection
+
+Timezone detection priority:
+
+1. Browser Timezone
+2. Country + City
+3. Manual Selection
+
+Specification defines behavior only.
+
+Implementation technology is left to development.
+
+### Patch 004: Upload Dependency
+
+Business Profile stores only references to:
+
+- Logo
+- Brand Images
+- Brand Fonts
+
+Business Profile does NOT define:
+
+- Upload API
+- Storage Provider
+- Upload Workflow
+
+These belong to future specification:
+
+- SPEC-003 Asset Upload
+
+### Patch 005: AI Enhancement
+
+Business Profile stores:
+
+- Business Description
+- Target Audience
+
+AI functions are NOT part of SPEC-001:
+
+- Improve Description
+- Suggest Target Audience
+
+They belong to:
+
+- AI Skills
+- Prompt Library
+- Workflow
+
+### Patch 006: UI Dependency
+
+Business Profile does NOT define:
+
+- Frontend Layout
+- Components
+- Responsive Design
+- Navigation
+
+These belong to future UI specification:
+
+- UI-SPEC-001 Business Profile Page
+
+### Patch 007: Dependencies Section
+
+SPEC-001 now explicitly defines:
+
+Depends On:
+
+- Workspace
+- Industry Dictionary
+
+Referenced By:
+
+- Campaign
+- Marketing
+- AI Skills
+
+Purpose:
+
+Clarify cross-specification relationships.
+
+### Patch 008: Out of Scope Section
+
+SPEC-001 now explicitly excludes:
+
+- Upload API
+- Prompt Design
+- Workflow Engine
+- Frontend UI
+- AI Skills
+
+Purpose:
+
+Prevent implementation guessing.
+
+## Future Shared Resources Note
+
+Shared dictionaries should eventually move to a shared location:
+
+```text
+Shared/
+  Dictionaries/
+    IndustryDictionary.md
+    CountryDictionary.md
+    TimezoneDictionary.md
+    LanguageDictionary.md
+    CampaignObjectiveDictionary.md
+    ToneDictionary.md
+```
+
+This is a future repository architecture note only.
+
+No shared dictionary files are created by this patch.
+
 ## Future Decisions
 
 Deferred:
@@ -237,5 +396,7 @@ Status: Completed
 Result: Accepted
 
 Specification: SPEC-001 Locked
+
+Patch: v1.1 Locked
 
 Next Specification: SPEC-002 Campaign Schema
