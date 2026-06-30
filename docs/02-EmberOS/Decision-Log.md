@@ -2,6 +2,18 @@
 
 This file is the canonical index and summary of locked Product Decisions. Individual PD files remain the detailed historical record when they exist.
 
+## PD-FOUNDATION: Foundation Brand and Design System
+
+Status: Locked
+
+Reference:
+docs/02-EmberOS/Decision/PD-FOUNDATION.md
+
+Decision:
+FOUNDATION-001 Brand System and FOUNDATION-002 Design System are completed and locked.
+
+Foundation decisions define EmberSoul Labs company identity, tagline, brand positioning, brand belief, product philosophy, product naming, module naming, target users, AI visibility, human control, automation behavior, core design principles, brand visual identity, color philosophy, motion, icons, one primary action behavior, card first architecture, empty states, screen orientation, cross-platform behavior, device independence, familiarity, AI components, AI assessment, AI suggestions, feedback, background AI work, and user work preservation.
+
 ## PD-001: Product Positioning
 
 Status: Locked
