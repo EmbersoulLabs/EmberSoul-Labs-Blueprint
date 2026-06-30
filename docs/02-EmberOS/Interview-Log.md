@@ -2,6 +2,19 @@
 
 This file records founder answers and product decisions from the V1 discovery interview. Separate Session files remain the detailed historical record when they exist.
 
+## Foundation Interview
+
+Reference:
+docs/02-EmberOS/Interview/Interview-FOUNDATION.md
+
+Summary:
+Foundation interview completed and locked FOUNDATION-001 Brand System and FOUNDATION-002 Design System.
+
+Key points:
+- Company, tagline, brand positioning, brand belief, product philosophy, product naming, module naming, target users, AI visibility, human control, and automation principle were accepted.
+- Core Design Principles, brand visual identity, color philosophy, motion, icons, one primary action, card first architecture, empty states, screen orientation, cross-platform behavior, device independence, AI components, AI assessment, feedback, background AI, and Never Lose User Work were accepted.
+- Architect Recommendations are not attributed to the user unless explicitly accepted.
+
 ## Session 001
 
 Summary:
